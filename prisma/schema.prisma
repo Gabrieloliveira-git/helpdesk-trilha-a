@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Status {
+  ABERTO
+  RESOLVIDO
+}
+
+model Usuario {
+  id       Int               @id @default(autoincrement())
+  email    String            @unique
+  nome     String
+  chamados Chamado[]
+  eventos  HistoricoStatus[]
+}
+
+model Categoria {
+  id       Int       @id @default(autoincrement())
+  nome     String    @unique
+  chamados Chamado[]
+}
+
+model Chamado {
+  id          Int               @id @default(autoincrement())
+  codigoSeed  String?           @unique
+  titulo      String
+  descricao   String
+  solucao     String?
+  status      Status            @default(ABERTO)
+  criadoEm    DateTime          @default(now())
+  autorId     Int
+  categoriaId Int
+  autor       Usuario           @relation(fields: [autorId], references: [id])
+  categoria   Categoria         @relation(fields: [categoriaId], references: [id])
+  eventos     HistoricoStatus[]
+
+  @@index([categoriaId, status])
+}
+
+model HistoricoStatus {
+  id        Int      @id @default(autoincrement())
+  chamadoId Int
+  usuarioId Int
+  status    Status
+  criadoEm  DateTime @default(now())
+  chamado   Chamado  @relation(fields: [chamadoId], references: [id])
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+
+  @@index([chamadoId])
+}

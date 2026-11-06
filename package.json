@@ -1,0 +1,17 @@
+{
+  "name": "helpdesk-academico",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=22 <25"
+  },
+  "scripts": {
+    "setup": "prisma generate && prisma migrate deploy",
+    "seed": "node src/seed.js",
+    "desk": "node src/desk.js"
+  },
+  "dependencies": {
+    "@prisma/client": "6.19.0",
+    "prisma": "6.19.0"
+  }
+}
