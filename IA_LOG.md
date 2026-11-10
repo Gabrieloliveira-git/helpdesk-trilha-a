@@ -59,3 +59,53 @@ Usei a IA para orientar o diagnóstico da conexão, a correção da
 
 porta e o registro deste teste.
 
+
+
+
+
+
+
+\## Testes realizados por Gabriel em 06/11/2026
+
+Registro acrescentado em 10/11/2026.
+
+
+
+Executei o Helpdesk no Windows, preparei o PostgreSQL pelo Docker
+
+e consultei chamados resolvidos da categoria Rede com o termo VPN.
+
+
+
+Abri o chamado 5001 em nome de Ana e registrei a resolução em nome
+
+de Bruno. Conferi o status RESOLVIDO, a solução preenchida e os
+
+dois eventos no histórico.
+
+
+
+Repeti a busca por VPN e confirmei que o chamado 5001 apareceu
+
+em primeiro lugar.
+
+
+
+Testei a persistência com docker compose down e, depois,
+
+docker compose up -d --wait. Ao consultar novamente o chamado,
+
+confirmei que a solução e os dois eventos continuavam gravados.
+
+
+
+Inicializei o repositório Git, conferi que .env e node\_modules
+
+estavam ignorados e publiquei o commit inicial c16a0a6 no GitHub.
+
+
+
+Usei a IA para orientar os comandos e explicar os resultados.
+
+Nesta atualização, revisei e registrei os testes que executei.
+
