@@ -39,3 +39,13 @@ Inicializei o repositório Git, conferi que .env e node_modules estavam ignorado
 Usei a IA para orientar os comandos e explicar os resultados. Nesta atualização, revisei e registrei os testes que executei.
 
 Registro dos testes publicado no commit `37def86`.
+
+## 10/11/2026 — Interface web solicitada por Gabriel
+
+Solicitação: “sera que conseguimos fazer um frontend bom detalhado apresentar pelo cmd acho muito simples”.
+
+A IA implementou uma interface local em HTML, CSS e JavaScript, com painel, filtros, paginação, abertura de chamado, detalhes, histórico, resolução e simulação de falha. Criou uma API com o módulo HTTP nativo do Node.js e extraiu as regras de abertura e resolução para src/chamados.js, compartilhadas entre a API e o terminal.
+
+A IA verificou a criação e a reversão pela interface no navegador. Testou também a API com o PostgreSQL da cópia helpdesk-lucas, incluindo campos inválidos, referências inexistentes, busca, resolução, duas tentativas simultâneas e operações pelo terminal. A transação usa espera de até dez segundos para acomodar concorrência no ambiente local.
+
+O chamado fictício 5002, “VPN • validação da interface”, foi criado durante a verificação visual e resolvido com dois eventos. Os registros temporários dos testes automatizados foram removidos ao final dos testes. A dupla deve ensaiar o roteiro visual documentado no README e compreender as regras compartilhadas antes de apresentar.

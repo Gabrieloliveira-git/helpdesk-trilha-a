@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const db = new PrismaClient();
+const { abrirChamado, resolverChamado } = require('./chamados');
 const [acao,...args] = process.argv.slice(2);
 const comandos = [
   'listar',
@@ -26,9 +27,7 @@ async function main() {
     case 'abrir': {
       validar(4);
       const [email,nome,titulo,descricao] = args;
-      const chamado = await db.chamado.create({data:{titulo,descricao,
-        autor:{connect:{email}}, categoria:{connect:{nome}},
-        eventos:{create:{status:'ABERTO',usuario:{connect:{email}}}}}});
+      const chamado = await abrirChamado(db, {email,categoria:nome,titulo,descricao});
       console.log('Chamado aberto. ID:', chamado.id);
       break;
     }
@@ -46,13 +45,7 @@ async function main() {
       validar(3);
       const id = idChamado();
       const [,email,solucao] = args;
-      await db.$transaction(async tx => {
-        const usuario = await tx.usuario.findUniqueOrThrow({where:{email}});
-        const alteracao = await tx.chamado.updateMany({where:{id,status:'ABERTO'},data:{status:'RESOLVIDO',solucao}});
-        if (alteracao.count !== 1) throw Error('Chamado inexistente ou já resolvido.');
-        if (acao === 'falha') throw Error('Falha de demonstração após atualizar o chamado. Transação revertida.');
-        await tx.historicoStatus.create({data:{chamadoId:id,usuarioId:usuario.id,status:'RESOLVIDO'}});
-      });
+      await resolverChamado(db, id, {email,solucao}, acao === 'falha');
       console.log('Resolução registrada.');
       break;
     }

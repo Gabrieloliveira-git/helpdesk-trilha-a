@@ -6,6 +6,7 @@
     "node": ">=22 <25"
   },
   "scripts": {
+    "start": "node src/server.js",
     "setup": "prisma generate && prisma migrate deploy",
     "seed": "node src/seed.js",
     "desk": "node src/desk.js"

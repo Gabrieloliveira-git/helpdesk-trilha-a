@@ -1,5 +1,40 @@
 # Helpdesk — Banco de Dados II
-Um técnico recebe um chamado, pesquisa soluções anteriores da mesma categoria e registra a resolução. A aplicação roda no terminal. A trilha A usa Prisma para relacionamentos, migração e transações.
+Um técnico recebe um chamado, pesquisa soluções anteriores da mesma categoria e registra a resolução. A aplicação oferece terminal e interface web local. A trilha A usa Prisma para relacionamentos, migração e transações.
+
+## Interface web local
+
+Depois da preparação do banco descrita abaixo, execute:
+
+```powershell
+npm.cmd start
+```
+
+Abra http://localhost:3000 no navegador e mantenha esse terminal aberto. Para encerrar, pressione Ctrl+C.
+
+O painel mostra totais reais do PostgreSQL, filtros, paginação, cadastro, detalhes, solução e histórico. A base de soluções começa filtrando os chamados resolvidos. O botão **Simular falha da transação** demonstra a reversão, consulta novamente o banco e exibe o estado resultante.
+
+Para atualizar a cópia já preparada na pasta helpdesk-lucas, execute `git pull --ff-only origin main`, inicie o Docker Desktop, rode `docker compose up -d --wait` e `npm.cmd start`.
+
+A API usa o servidor HTTP nativo do Node.js e escuta em 127.0.0.1. O navegador envia pedidos JSON à API, que usa Prisma. A conexão com o PostgreSQL é lida do .env. Nesta configuração, a porta da aplicação é 3000 e a do banco no Windows é 55433. A interface é destinada à demonstração local, com usuários fictícios selecionados nos formulários.
+
+### Apresentação pela interface
+
+1. Gabriel mostra o painel e abre um chamado em nome de Ana, na categoria Rede. Anota o ID e aponta o primeiro evento.
+2. Lucas fecha os detalhes, abre **Base de soluções**, busca VPN e consulta uma solução anterior.
+3. Em **Chamados**, localiza a ficha nova e abre seus detalhes. Seleciona Bruno como responsável e preenche a solução.
+4. Clica em **Simular falha da transação**. Confere a mensagem de reversão, o estado em aberto e um evento.
+5. Clica em **Resolver chamado**. Mostra a solução gravada e os dois eventos.
+6. Busca a ficha na base de soluções. A dupla explica as relações no schema e a transação em src/chamados.js.
+
+### Organização do código
+
+- public/index.html, style.css e app.js compõem a interface.
+- src/server.js atende as rotas da API e entrega os arquivos estáticos.
+- src/chamados.js reúne as regras de abertura e resolução usadas pela API e pelo terminal.
+- src/desk.js oferece os comandos do terminal.
+- src/seed.js gera a massa fictícia.
+
+As rotas GET /api/inicio, GET /api/chamados e GET /api/chamados/:id consultam o banco. As rotas POST /api/chamados, POST /api/chamados/:id/resolver e POST /api/chamados/:id/falha executam as operações de atendimento.
 
 ## Primeira execução no Windows
 1. Extraia o ZIP inteiro. Abra a pasta helpdesk no Explorador, digite powershell na barra de endereço e pressione Enter. O terminal deve abrir na pasta que contém package.json.
